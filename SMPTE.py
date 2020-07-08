@@ -3,13 +3,14 @@
 
 # Converts frames to SMPTE timecode of arbitrary frame rate and back.
 # Copyright 2018, Igor Riđanović, Igor@hdhead.com, Meta Fide
+# adapted by mivk, 2020
 
-class SMPTE(object):
+class SMPTE:
 	'''Frames to SMPTE timecode converter and reverse.'''
 
-	def __init__(self):
-		self.fps = 24
-		self.df  = False
+	def __init__(self, *args):
+		self.fps = args[0] if len(args) > 0 else 24
+		self.df  = args[1] if len(args) > 1 else False
 
 
 	def getframes(self, tc):
@@ -73,15 +74,4 @@ class SMPTE(object):
 				str(mn).zfill(2) + spacer +
 				str(sc).zfill(2) + spacer2 +
 				str(fr).zfill(2))
-
-
-if __name__ == '__main__':
-
-	# Drop frame example
-	s = SMPTE()
-	s.fps = 29.976
-	s.df = True
-	print s.gettc(1800)
-	print s.getframes('00:01:00:02')
-
 
