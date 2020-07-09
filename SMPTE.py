@@ -12,6 +12,11 @@ class SMPTE(object):
 		self.fps = args[0] if len(args) > 0 else 24
 		self.df  = args[1] if len(args) > 1 else False
 
+	def df_check(self):
+		if self.df and ( self.fps == int(self.fps) or int(self.fps) not in (29, 59) ):
+			import sys
+			sys.stderr.write('Ignoring invalid drop-frame option with ' + str(self.fps) + " fps!\n")
+			return False
 
 	def getframes(self, tc):
 		'''Converts SMPTE timecode to frame count.'''
@@ -31,7 +36,7 @@ class SMPTE(object):
 		frm =	int((min*60 + sec) * self.fps + int(tc[9:]))
 
 		# Drop frame adjustment
-		if self.df:
+		if self.df and self.df_check():
 			# Subtract 2 frames for each minute...
 			dffrm =  frm - min * 2
 			# ...except every 10 minutes.
@@ -52,7 +57,7 @@ class SMPTE(object):
 		spacer = spacer2 = ':'
 
 		# Drop frame adjustment
-		if self.df:
+		if self.df and self.df_check():
 			spacer2 = ';'
 			minfactor    = self.fps * 60
 			tenminfactor = self.fps * 600
