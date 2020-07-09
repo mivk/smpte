@@ -5,7 +5,7 @@
 # Copyright 2018, Igor Riđanović, Igor@hdhead.com, Meta Fide
 # adapted by mivk, 2020
 
-class SMPTE:
+class SMPTE(object):
 	'''Frames to SMPTE timecode converter and reverse.'''
 
 	def __init__(self, *args):
