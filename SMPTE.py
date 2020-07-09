@@ -27,7 +27,7 @@ class SMPTE(object):
 		# Validate timecode
 		if len(tc) != 11:
 			raise ValueError ('Malformed SMPTE timecode', tc)
-		if int(tc[9:]) > self.fps:
+		if int(tc[9:]) >= self.fps:
 			raise ValueError ('SMPTE timecode to frame rate mismatch.', tc, self.fps)
 
 		# Calculate timecode to frames for fps time base
